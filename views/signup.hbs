@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+{{> header}}
+<style>
+  #wrapper {
+    width: 100%;
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body {
+    background: black
+  }
+
+  div {
+    margin-bottom: 5px;
+  }
+</style>
+
+<body>
+  <h1 style="text-align: center; color:white;">Join the battle !</h1><br><br>
+
+  <div id="wrapper">
+
+    <p style="color:white">Here is your output: </p>
+
+    {{!-- <p style="color:white">{{message}}</p> --}}
+    <div>
+      <p style="color:white"> {{message1}} </p>
+    </div>
+    <div>
+      <p style="color:white"> {{message2}} </p>
+    </div>
+    <div>
+      <p style="color:white"> {{message3}} </p>
+    </div>
+    <div>
+      <p style="color:white"> {{message4}} </p>
+    </div>
+
+    {{!-- <form action="/newPlayerAccount" method="post">
+  
+  <fieldset>
+  Username:<br>
+  <input type="text" name="username" required>
+  <br>
+  Password:<br>
+  <input type="password" name="password" required>
+  <br><br>
+  Confirm Password:<br>
+  <input type="password" name="confirm_password" required>
+  <br><br>
+  <input type="submit" value="Submit">
+
+  <a href="/"><button type="button">Back to main page</button></a>
+  </div>
+  </fieldset>
+</form> --}}
+
+
+</body>
+{{footer}}
+
+</html>

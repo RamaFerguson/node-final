@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    {{> header}}
+
+<style>
+    ul.images {
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  width: 900px;
+  overflow-x: auto;
+}
+body {
+        background-color: black
+    }
+
+ul.images li {
+  display: inline;
+}
+    
+div.gamespast {
+        background-color: lightblue;
+        width: 500px;
+        height: 700px;
+        overflow: scroll;
+    }
+</style>
+
+<body>
+    <h1 style="text-align: center; color:white">Hello again, {{username}} !</h1>
+
+    <h2 style="color: white">Games Active !</h2>
+    <div style="background-color:lightblue;height:600px;width:300px;overflow:scroll;padding:50px;float:left">
+       {{!-- {{{populateStartNewGames}}} --}}
+
+       {{{populateLiveGames username liveOpponents}}}
+       {{!-- {{{liveOpponents}}} --}}
+</div>
+    <h2 style="color: white; text-align: right">Start a new game !</h2>
+   <div style="background-color:lightblue;height:600px;width:300px;overflow:scroll;padding:50px;float:right;">
+        {{{populateStartNewGames username newOpponents}}}
+        {{!-- {{{newOpponents}}} --}}
+</div>
+</body>
+
+
+</html>

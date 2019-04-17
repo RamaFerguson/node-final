@@ -1,0 +1,26 @@
+{
+  "name": "node-final",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RamaFerguson/node-final.git"
+  },
+  "author": "Rama Ferguson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RamaFerguson/node-final/issues"
+  },
+  "homepage": "https://github.com/RamaFerguson/node-final#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "hbs": "^4.0.4"
+  }
+}
