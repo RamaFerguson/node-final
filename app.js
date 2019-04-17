@@ -8,15 +8,6 @@ var port = process.env.PORT || 8080;
 
 var app = express();
 
-// enables parsing of body json
-const bodyParser = require("body-parser");
-app.use(bodyParser.json());
-app.use(
-    bodyParser.urlencoded({
-        extended: true
-    })
-);
-
 hbs.registerPartials(__dirname + "/views");
 hbs.registerPartials(__dirname + "/views/partials");
 
@@ -27,23 +18,35 @@ app.get("/", (request, response) => {
     response.render("landing.hbs")
 });
 
+app.post("/", (request, response) => {
+    response.render("landing.hbs")
+});
+
 app.get("/searchNASA", async (request, response) => {
+    var imageURLArray = [];
+
     try {
-        console.log(request.query.query)
-        let keyword = request.query.query;
+
+        let keyword = request.query.q;
         let imageGallery = await nasa.getGallery(keyword);
         let imageObjectArray = imageGallery.data.collection.items;
-
-        let imageURLArray = [];
-        for (let imageObject of imageObjectArray) {
-            imageURLArray.push(imageObject.links[0].href);
+        // console.log(imageObjectArray[0].links[0].href)
+        
+        for (var imageObject of imageObjectArray) {
+            // console.log(imageObject.links[0].href)
+            let link = imageObject.links[0].href;
+            // console.log(link)
+            
+            imageURLArray.push(String(link));
+            // console.log(imageURLArray)
         }
+        console.log(imageURLArray);
+        // console.log(images)
 
         response.render("nasa.hbs", {
             images: imageURLArray,
             keyword: keyword
         });
-        console.log(imageURLArray);
     }
     catch(err) {
         response.render("error.hbs", {
@@ -55,28 +58,30 @@ app.get("/searchNASA", async (request, response) => {
 app.get("/searchCards", async (request, response) => {
     try {
         let number = request.query.number;
-        let deck = await cards.getDeck(number);
-    //     let imageObjectArray = imageGallery.data.collection.items;
+        let numberInt = parseInt(number);
 
-    //     let imageURLArray = [];
-    //     for (let imageObject of imageObjectArray) {
-    //         imageURLArray.push(imageObject.links[0].href);
-    //     }
+        if (numberInt < 0 || numberInt > 52){
+            throw error
+        }
 
-    //     response.render("nasa.hbs", {
-    //         images: imageURLArray,
-    //         keyword: keyword
-    //     });
-    //     console.log(imageURLArray);
+        let deckArray = await cards.getDeck(number);
+        let cardImageArray = [];
+        for (let card of deckArray){
+            cardImageArray.push(card.image);
+        }
+  
+        response.render("cards.hbs", {
+            cards: cardImageArray,
+            number: number
+        });
     }
     catch(err) {
-        response.render("error.hbs", {
-
-        });
+        console.log(err)
+        response.render("error.hbs");
     }
 });
 
 
 
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`My cool website listening on port ${port}!`))

@@ -10,17 +10,24 @@
   body {
     background: black
   }
-
 </style>
 
 <body>
-  <h1 style="text-align: center; color:white;">Your images for keyword: '{{keyword}}':</h1>
+  <fieldset>
+    <h1 style="text-align: center; color:white;">Your deck of <bold>{{number}}</bold> cards:</h1>
+    <p>
+      <button value="Refresh Page" onClick="window.location.href=window.location.href"> Get a new deck of cards!
+      </button>
+    </p>
+
   <form action="/" method="post">
     <button type="submit">Return Home!</button>
   </form>
+  </fieldset>
+
   <div id="wrapper">
 
-    {{#each images}}
+    {{#each cards}}
     <div>
       <img src="{{this}}" alt="image">
     </div>

@@ -7,8 +7,8 @@ const nasaAPI = axios.create({
 });
 
 const getGallery = ( async (keyword) => {
-    console.log('__getGallery__')
-    console.log(keyword)
+    // console.log('__getGallery__')
+    // console.log(keyword)
     let gallery;
     try {
         gallery = await nasaAPI.get('/search?q=' + keyword);
@@ -17,7 +17,7 @@ const getGallery = ( async (keyword) => {
     catch(err) {
         throw err
     }
-
+    // console.log(gallery.data.collection.items);
     return gallery;
 
 });

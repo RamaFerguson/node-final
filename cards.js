@@ -2,24 +2,25 @@
 
 const axios = require('axios');
 
-const cardAPI = axios.create({
-    baseURL: 'https://deckofcardsapi.com/api/deck/new/draw'
-});
-
 const getDeck = (async (number) => {
+
     try {
         console.log(number);
-        // let newDeck = await axios.get('https://deckofcardsapi.com/api/deck/new/');
-        // console.log(newDeck);
-        // let newDeckID = newDeck.deck_id;
-        let deckOfNumberCards = await axios.get('?count=' + number);
-        console.log(deckOfNumberCards);
+        let deckOfNumberCardsObject = await axios.get('https://deckofcardsapi.com/api/deck/new/draw?count=' + number);
+        let deck = deckOfNumberCardsObject.data.cards;
+        // console.log(deck);
+        let deckArray = [];
+        for (let card of deck) {
+            deckArray.push(card);
+        }
+        // console.log(deckArray)
+        return deckArray;
+
     } catch (err) {
         console.log(err)
         throw err
     }
 
-    return;
 
 });
 
