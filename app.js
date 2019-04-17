@@ -1,7 +1,5 @@
-
-const coindesk = require('./coindesk');
-const blockchain = require('./blockchain');
-const currency = require('./currency');
+const cards = require('./cards');
+const nasa = require('./nasa');
 
 // express setup
 var express = require("express");
@@ -29,66 +27,55 @@ app.get("/", (request, response) => {
     response.render("landing.hbs")
 });
 
-app.post("/sendData", async (request, response) => {
+app.get("/searchNASA", async (request, response) => {
     try {
-        let country = request.body.country;
-        console.log(country);
+        console.log(request.query.query)
+        let keyword = request.query.query;
+        let imageGallery = await nasa.getGallery(keyword);
+        let imageObjectArray = imageGallery.data.collection.items;
 
-        let text = await main(country);
+        let imageURLArray = [];
+        for (let imageObject of imageObjectArray) {
+            imageURLArray.push(imageObject.links[0].href);
+        }
 
-        console.log(text);
-
-        response.render("signup.hbs", {
-            message1: text.message1,
-            message2: text.message2,
-            message3: text.message3,
-            message4: text.message4
+        response.render("nasa.hbs", {
+            images: imageURLArray,
+            keyword: keyword
         });
-        // response.redirect("/signup");
+        console.log(imageURLArray);
     }
+    catch(err) {
+        response.render("error.hbs", {
 
-    catch (err) {
-        console.log(err)
+        });
     }
-
 });
 
-app.get("/signup", (request, response) => {
-    response.render("signup.hbs", {
-        title: "Sign Up"
-    });
+app.get("/searchCards", async (request, response) => {
+    try {
+        let number = request.query.number;
+        let deck = await cards.getDeck(number);
+    //     let imageObjectArray = imageGallery.data.collection.items;
+
+    //     let imageURLArray = [];
+    //     for (let imageObject of imageObjectArray) {
+    //         imageURLArray.push(imageObject.links[0].href);
+    //     }
+
+    //     response.render("nasa.hbs", {
+    //         images: imageURLArray,
+    //         keyword: keyword
+    //     });
+    //     console.log(imageURLArray);
+    }
+    catch(err) {
+        response.render("error.hbs", {
+
+        });
+    }
 });
 
-
-const main = async (country) => {
-    //Requests a country from the user and gets a currency code from an api
-    const code = await currency.getCurrencyCode(country);
-
-    //Gets bitcoin conversion rate from coindesk
-    const coinApi = await coindesk.getCoinDesk(code);
-
-    //Gets bitcoin conversion rate from blockchain.info
-    const exchangeApi = await blockchain.getBlockChain(code);
-
-    let message1 = `Currency of ${country}: ${code}`;
-    let message2 = `Coindesk rate: 1 ${code} = ${Number((coinApi).toFixed(2))} BTC`;
-    let message3 = `Blockchain.info rate: 1 ${code} = ${Number((exchangeApi).toFixed(2))} BTC`;
-    let message4;
-    if (coinApi < exchangeApi) {
-        message4 = 'Coindesk has the best rate';
-    } else if (coinApi > exchangeApi) {
-        message4 = 'Blockchain.info has the best rate';
-    } else {
-        message4 = 'Both exchanges have the same rate';
-    }
-
-    return {
-        message1,
-        message2,
-        message3,
-        message4
-    }
-};
 
 
 
